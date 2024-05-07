@@ -36,4 +36,8 @@ public class MapperRegistry {
             addMapper(mapperClass);
         }
     }
+
+    public boolean hasMapper(Class<?> type) {
+        return knownMappers.containsKey(type);
+    }
 }
