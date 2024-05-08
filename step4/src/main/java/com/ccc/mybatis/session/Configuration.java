@@ -2,7 +2,11 @@ package com.ccc.mybatis.session;
 
 import com.ccc.mybatis.binding.MapperProxy;
 import com.ccc.mybatis.binding.MapperRegistry;
+import com.ccc.mybatis.datasource.DruidDataSourceFactory;
+import com.ccc.mybatis.mapping.Environment;
 import com.ccc.mybatis.mapping.MappedStatement;
+import com.ccc.mybatis.transaction.jdbc.JdbcTransactionFactory;
+import com.ccc.mybatis.type.TypeAliasRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +19,15 @@ public class Configuration {
 
     MapperRegistry mapperRegistry = new MapperRegistry();
     Map<String, MappedStatement> mappedStatements = new HashMap<>();
+    // 类型别名注册机
+    protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
+    //环境
+    protected Environment environment;
+
+    public Configuration() {
+        typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
+        typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
+    }
 
     public void addMappers(String packageName) {
         mapperRegistry.addMappers(packageName);
@@ -40,4 +53,16 @@ public class Configuration {
         return mappedStatements.get(id);
     }
 
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+
+    public TypeAliasRegistry getTypeAliasRegistry() {
+        return typeAliasRegistry;
+    }
 }

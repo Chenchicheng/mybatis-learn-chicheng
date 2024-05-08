@@ -1,10 +1,12 @@
 package com.ccc.mybatis.test;
 
+import cn.hutool.json.JSONUtil;
 import com.ccc.mybatis.io.Resources;
 import com.ccc.mybatis.session.SqlSession;
 import com.ccc.mybatis.session.SqlSessionFactory;
 import com.ccc.mybatis.session.SqlSessionFactoryBuilder;
 import com.ccc.mybatis.test.dao.IUserDao;
+import com.ccc.mybatis.test.po.User;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class ApiTest {
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
 
         // 3. 测试验证
-        String res = userDao.queryUserInfoById("10001");
-        System.out.println(res);
+        User res = userDao.queryUserInfoById(1L);
+        System.out.println(JSONUtil.toJsonStr(res));
     }
 }
