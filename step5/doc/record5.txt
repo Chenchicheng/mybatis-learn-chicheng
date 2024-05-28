@@ -1,0 +1,4 @@
+新增功能点：
+1、数据库池化技术，分为有池化、无池化，分别为PooledDataSource 和 UnpooledDataSource； PooledDataSource 以对无池化的 UnpooledDataSource 进行扩展处理。
+把创建出来的链接保存到内存中，记录为空闲链接和活跃链接，在不同的阶段进行使用。
+2、PooledConnection 是对链接的代理操作，通过invoke方法的反射调用，对关闭的链接进行回收处理，并使用 notifyAll 通知正在等待链接的用户进行抢链接。

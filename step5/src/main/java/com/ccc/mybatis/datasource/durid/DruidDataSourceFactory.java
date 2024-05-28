@@ -1,6 +1,7 @@
-package com.ccc.mybatis.datasource;
+package com.ccc.mybatis.datasource.durid;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.ccc.mybatis.datasource.DataSourceFactory;
 
 import javax.sql.DataSource;
 import java.util.Properties;

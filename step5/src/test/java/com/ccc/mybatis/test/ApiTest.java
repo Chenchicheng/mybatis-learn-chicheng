@@ -1,5 +1,6 @@
 package com.ccc.mybatis.test;
 
+import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.ccc.mybatis.io.Resources;
 import com.ccc.mybatis.session.SqlSession;
@@ -7,6 +8,7 @@ import com.ccc.mybatis.session.SqlSessionFactory;
 import com.ccc.mybatis.session.SqlSessionFactoryBuilder;
 import com.ccc.mybatis.test.dao.IUserDao;
 import com.ccc.mybatis.test.po.User;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.io.Reader;
  * @author chenchicheng
  * @date 2024/4/16
  */
+@Slf4j
 public class ApiTest {
 
 
@@ -30,7 +33,9 @@ public class ApiTest {
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
 
         // 3. 测试验证
-        User res = userDao.queryUserInfoById(1L);
-        System.out.println(JSONUtil.toJsonStr(res));
+        for (int i = 0; i < 50; i++) {
+            User user = userDao.queryUserInfoById(1L);
+            log.info("测试结果：{}", JSONUtil.toJsonStr(user));
+        }
     }
 }
