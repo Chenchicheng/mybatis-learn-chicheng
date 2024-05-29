@@ -1,0 +1,13 @@
+新增功能点：
+1、整合包装数据源，以解析XML配置为入口，引入事务工厂对JDBC事务进行处理，并加载到环境配置中进行使用。
+2、在DefaultSqlSession中从Configuration配置引入环境信息，把对应的SQL语句提交给JDBC进行处理并简单封装结果数据。
+
+学习到的东西：
+1、工厂Factory的使用，Factory分为class和interface
+    i: class类型的的工厂一般为泛型，比如代理工厂MapperProxyFactory<T>，返回参数为泛型实体对象<T>； 使用时通常依赖注册器，即 注册器需要依赖工厂，外界则使用注册器提供的获取方法即可。
+    i: interface类型的工厂，抽象工厂，比如SqlSessionFactory，一般要用默认的工厂实现类比如DefaultSqlSessionFactory进行实现，再使用Builder构造器进行构造，外界则使用构造器提供的构造方法获取即可。
+    i: 为何不通过直接new的方式进行工厂创建？原因是创建一个工厂可能需要做比较多的前置工作，比如解析、注册、校验等等，这些不会放在同一个工厂中去实现，因此需要依赖其他工厂或方法，这里连接解析、注册等步骤的，承接结果的核心是Configuration类。
+2、主要原理封装拆解：
+    i: XMLConfigBuilder对配置文件进行解析，将解析后的结果（环境、mapper注册器、mappedStatements等）装入Configuration中
+    i: SqlSessionFactoryBuilder 依赖 XMLConfigBuilder，将上一步得到的Configuration 装载进 DefaultSqlSessionFactory，并返回默认的DefaultSqlSession
+    i: 使用DefaultSqlSession 获取 mapper代理类（解析时已经注册进 mapper 注册器），并执行查询方法
