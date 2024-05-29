@@ -1,0 +1,14 @@
+新增功能点：
+1、解耦 DefaultSqlSession#selectOne 方法中关于对数据源的调用、执行和结果封装，提供Executor模块替代这部分硬编码的逻辑处理。
+2、Executor 主要包括对事务的包装如：事务获取、提交、关闭、回滚；以及对结果的查询操作
+3、Executor 依赖 StatementHandler 对结果进行查询，StatementHandler 主要是对SQL的包装，包括（准备sql， 设置参数，执行sql查询三个逻辑）
+4、StatementHandler 依赖 ResultSetHandler对结果进行包装
+
+学习到的点：
+1、使用构造方法进行上下文依赖参数的传递是源码看起来复杂，不易懂的关键；只要梳理清楚各个关键参数的构造传递过程，就能明白原理；
+2、本章节中几个关键参数的传递都是通过构造方法进行的，如：
+    2.1、Executor的创建，因为Executor需要依赖Transaction，所以需要先获取到Transaction再通过Executor构造方法进行实体构造
+    2.2、DefaultSqlSession的创建，因为DefaultSqlSession执行select操作时需要依赖Executor，所以需要通过传递Executor对象构造DefaultSqlSession对象
+    2.3、PreparedStatementHandler的创建，由于PreparedStatementHandler执行query操作时需要依赖ResultSetHandler对结果进行包装返回，所以在创建对象PreparedStatementHandler的时候，
+    需要先创建好ResultSetHandler对象
+
